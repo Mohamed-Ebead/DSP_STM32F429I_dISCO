@@ -61,6 +61,12 @@ SDRAM_HandleTypeDef hsdram1;
 
 /* USER CODE BEGIN PV */
 float Signal_Sample_gf ;
+
+float32_t Signal_Mean_gf32 ;
+float32_t Signal_Variance_gf32 ;
+float32_t Signal_StdDev_gf32 ;
+float32_t Signal_StdDev_CMSIS_gf32 ;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -78,7 +84,11 @@ static void MX_UART5_Init(void);
 void MX_USB_HOST_Process(void);
 
 /* USER CODE BEGIN PFP */
-void SWV_PlotSignal(float Signal[] ,uint16_t Len) ;
+void PlotSignal(float Signal[] ,uint16_t Len) ;
+static float32_t Signal_GetMean(float32_t *sig_src_arr , uint32_t sig_length) ;
+static float32_t Signal_GetVariance(float32_t *sig_src_arr , float32_t sig_mean,uint32_t sig_length) ;
+static float32_t Signal_GetStdDev(float32_t sig_variance ) ;
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -91,7 +101,7 @@ int __io_putchar(int ch)
 
 
 
-void SWV_PlotSignal(float Signal[] ,uint16_t Len)
+void PlotSignal(float Signal[] ,uint16_t Len)
 {
 	uint16_t index = 0 ;
 
@@ -111,6 +121,44 @@ void SWV_PlotSignal(float Signal[] ,uint16_t Len)
 		HAL_Delay(300);
 	}
 #endif
+}
+
+
+static float32_t Signal_GetMean(float32_t *sig_src_arr , uint32_t sig_length)
+{
+	float32_t mean_lf32 = 0.0 ;
+	uint32_t i ;
+
+	for (i = 0 ; i < sig_length ; i++)
+	{
+		mean_lf32 = mean_lf32 + sig_src_arr[i] ;
+	}
+
+	mean_lf32 = mean_lf32 / (float32_t)sig_length  ;
+
+	return mean_lf32 ;
+}
+
+static float32_t Signal_GetVariance(float32_t *sig_src_arr , float32_t sig_mean,uint32_t sig_length)
+{
+
+	float32_t variance_lf32 = 0.0 ;
+	uint32_t i ;
+
+	for (i = 0 ; i < sig_length ; i++)
+	{
+		variance_lf32 = variance_lf32 + powf((sig_src_arr[i] -1),2);
+	}
+
+	variance_lf32 = variance_lf32 / ((float32_t)(sig_length-1))  ;
+	return variance_lf32 ;
+}
+
+
+static float32_t Signal_GetStdDev(float32_t sig_variance )
+{
+	float32_t StdDev_lf32  = sqrt(sig_variance);
+	return StdDev_lf32 ;
 }
 
 /* USER CODE END 0 */
@@ -157,6 +205,16 @@ int main(void)
 
   // enable floating point  full access
   SCB->CPACR |= (0xF << 20);
+
+
+
+  Signal_Mean_gf32 = Signal_GetMean(inputSignal_f32_1kHz_15kHz, _1k_HZ_SIGNAL_LEN);
+  Signal_Variance_gf32 = Signal_GetVariance(inputSignal_f32_1kHz_15kHz, Signal_Mean_gf32, _1k_HZ_SIGNAL_LEN) ;
+  Signal_StdDev_gf32 = Signal_GetStdDev(Signal_Sample_gf);
+
+  // CMSIS fn
+  arm_std_f32(inputSignal_f32_1kHz_15kHz, _1k_HZ_SIGNAL_LEN, &Signal_StdDev_CMSIS_gf32);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -167,9 +225,9 @@ int main(void)
     MX_USB_HOST_Process();
 
     /* USER CODE BEGIN 3 */
-//	SWV_PlotSignal(_5hz_signal , _5_HZ_SIGNAL_LEN);
+//	PlotSignal(_5hz_signal , _5_HZ_SIGNAL_LEN);
 
-	SWV_PlotSignal(inputSignal_f32_1kHz_15kHz , _1k_HZ_SIGNAL_LEN);
+	PlotSignal(inputSignal_f32_1kHz_15kHz , _1k_HZ_SIGNAL_LEN);
 
 
   }
