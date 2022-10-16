@@ -65,7 +65,7 @@ main-build: 00_DSP.elf secondary-outputs
 
 # Tool invocations
 00_DSP.elf 00_DSP.map: $(OBJS) $(USER_OBJS) E:\QX\ Cources\DSP\ From\ Ground\ Up\ on\ ARM\ Processors\STM32CubeIDE_WorkSpace\00_DSP_STM32F429I_DISCO\00_DSP\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "00_DSP.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\QX Cources\DSP From Ground Up on ARM Processors\STM32CubeIDE_WorkSpace\00_DSP_STM32F429I_DISCO\00_DSP\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="00_DSP.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "00_DSP.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\QX Cources\DSP From Ground Up on ARM Processors\STM32CubeIDE_WorkSpace\00_DSP_STM32F429I_DISCO\00_DSP\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="00_DSP.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
