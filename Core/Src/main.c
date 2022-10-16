@@ -19,7 +19,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "usb_host.h"
-#include <stdio.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -87,6 +86,7 @@ void SWV_PlotSignal(float Signal[] ,uint16_t Len) ;
 int __io_putchar(int ch)
 {
 	HAL_UART_Transmit(&huart5, &ch, sizeof(ch), HAL_MAX_DELAY)  ;
+	return ch ;
 }
 
 
@@ -167,7 +167,11 @@ int main(void)
     MX_USB_HOST_Process();
 
     /* USER CODE BEGIN 3 */
-	SWV_PlotSignal(_5hz_signal , _5_HZ_SIGNAL_LEN);
+//	SWV_PlotSignal(_5hz_signal , _5_HZ_SIGNAL_LEN);
+
+	SWV_PlotSignal(inputSignal_f32_1kHz_15kHz , _1k_HZ_SIGNAL_LEN);
+
+
   }
   /* USER CODE END 3 */
 }

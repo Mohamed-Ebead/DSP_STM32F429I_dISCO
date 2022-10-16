@@ -38,7 +38,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_hcd.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
- ../USB_HOST/App/usb_host.h ../Core/Inc/Signals.h
+ ../USB_HOST/App/usb_host.h ../Core/Inc/Signals.h \
+ E:/QX\ Cources/DSP\ From\ Ground\ Up\ on\ ARM\ Processors/STM32CubeIDE_WorkSpace/00_DSP_STM32F429I_DISCO/00_DSP/Drivers/CMSIS/DSP/Include/arm_math.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -81,3 +82,4 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h:
 ../USB_HOST/App/usb_host.h:
 ../Core/Inc/Signals.h:
+E:/QX\ Cources/DSP\ From\ Ground\ Up\ on\ ARM\ Processors/STM32CubeIDE_WorkSpace/00_DSP_STM32F429I_DISCO/00_DSP/Drivers/CMSIS/DSP/Include/arm_math.h:
